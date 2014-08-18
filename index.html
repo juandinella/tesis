@@ -7,6 +7,7 @@
 <body>
   <div id="fb-root"></div>
   <script>
+
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -84,12 +85,24 @@
         document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
       });
-      FB.api('/me/home?fields=message', function(response) {
+
+      //Mensajes de Feeds
+	  FB.api('/me/home?fields=message', function(response) {
         for(var i=0; i<response.data.length;i++){
-          console.log('Los mensajes de tu feed: ' + response.data[i].message);
+          //console.log('Los mensajes de tu feed son: ' + response.data[i].message);
+        }
+      });
+
+       //Mensajes de Timeline Propio
+	 FB.api('/me?fields=id,posts.limit(10000){message}', function(response) {
+        for(var i=0; i<response.posts.data.length;i++){
+        	if(typeof response.posts.data[i].message !== "undefined"){
+        		console.log('Los mensajes de tu timeline son: ' + response.posts.data[i].message);
+        	}
         }
       });
     }
+
     </script>
 
     <!--
