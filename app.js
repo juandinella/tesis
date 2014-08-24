@@ -1,9 +1,13 @@
 var http = require("http");
 var fs = require("fs");
+var express = require("express");
+var sentiment = require("sentiment");
+
 console.log("Starting");
 
 var host = "127.0.0.1";
 var port = 80;
+
 
 var server = http.createServer(function(request, response){
 	console.log("Received request: " + request.url);
@@ -17,6 +21,9 @@ var server = http.createServer(function(request, response){
 		}
 	});
 });
+
+
 server.listen(port, host, function(){
 	console.log("Listening " + host + ":" + port);
 });
+

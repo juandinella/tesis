@@ -98,13 +98,13 @@
         	for(var i=0; i<response.posts.data.length;i++){
         		if(typeof response.posts.data[i].message !== "undefined"){ //Quito los post sin texto
         			console.log('Los mensajes de tu timeline son: ' + response.posts.data[i].message);
+              document.getElementById('mensajes').innerHTML += '<br>' + response.posts.data[i].message;
         		}
         	}
       	});
     }
 
     </script>
-
     <!--
     Below we include the Login Button social plugin. This button uses
     the JavaScript SDK to present a graphical Login button that triggers
@@ -115,6 +115,9 @@
 </fb:login-button>
 
 <div id="status"></div>
+<div id="mensajes">
+  
+</div>
 
 </body>
 </html>
