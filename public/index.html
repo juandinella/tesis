@@ -18,7 +18,7 @@
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      testAPI();
+      analizar();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -44,7 +44,7 @@
     FB.init({
       appId      : '265029100362089',
       cookie     : true,  // enable cookies to allow the server to access
-      					  // the session
+                  // the session
       xfbml      : true,  // parse social plugins on this page
       version    : 'v2.1' // use version 2.1
     });
@@ -78,30 +78,31 @@
 
     // Here we run a very simple test of the Graph API after login is
     // successful.  See statusChangeCallback() for when this call is made.
-	function testAPI() {
+  function analizar() {
+
       console.log('Welcome!  Fetching your information.... ');
-		FB.api('/me', function(response) {
-        	console.log('Successful login for: ' + response.name);
-        	document.getElementById('status').innerHTML =
-        	'Thanks for logging in, ' + response.name + '!';
-      	});
+    FB.api('/me', function(response) {
+          console.log('Successful login for: ' + response.name);
+          document.getElementById('status').innerHTML =
+          'Thanks for logging in, ' + response.name + '!';
+        });
 
-		//Mensajes de Feeds
-		FB.api('/me/home?fields=message', function(response) {
-        	for(var i=0; i<response.data.length;i++){
-          		console.log('Los mensajes de tu feed son: ' + response.data[i].message);
-        	}
-      	});
+    //Mensajes de Feeds
+    FB.api('/me/home?fields=message', function(response) {
+          for(var i=0; i<response.data.length;i++){
+              console.log('Los mensajes de tu feed son: ' + response.data[i].message);
+          }
+        });
 
-		//Mensajes de Timeline Propio
-		FB.api('/me?fields=id,posts.limit(10000){message}', function(response) {
-        	for(var i=0; i<response.posts.data.length;i++){
-        		if(typeof response.posts.data[i].message !== "undefined"){ //Quito los post sin texto
-        			console.log('Los mensajes de tu timeline son: ' + response.posts.data[i].message);
-              document.getElementById('mensajes').innerHTML += '<br>' + response.posts.data[i].message;
-        		}
-        	}
-      	});
+    //Mensajes de Timeline Propio
+    FB.api('/me?fields=id,posts.limit(10000){message}', function(response) {
+          for(var i=0; i<response.posts.data.length;i++){
+            if(typeof response.posts.data[i].message !== "undefined"){ //Quito los post sin texto
+              console.log('Los mensajes de tu timeline son: ' + response.posts.data[i].message);
+              document.getElementById('mensajes').innerHTML += '<br>' + sentimentToSmiley(response.posts.data[i].message);
+            }
+          }
+        });
     }
 
     </script>
