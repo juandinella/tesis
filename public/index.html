@@ -3,6 +3,25 @@
 <head>
   <title>Tesis</title>
   <meta charset="UTF-8">
+  <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
+  <script>
+    var socket = io.connect('http://juancito.com:8079');
+    socket.on('news', function (data) {
+      console.log(data);
+    });
+    socket.on('devolverDatos', function (data) {
+      console.log(data.mensajes);
+      
+      var datos = document.getElementById("datos");
+      datos.innerHTML="";
+      var mensajes = datos.mensajes;
+      var score = datos.score;
+      for(var i = 0; i < mensajes.length; i++){
+        console.log(i);
+          datos.innerHTML += i;//mensajes[i]+"  score:"+score[i]+"<br>";
+      }
+    });
+  </script>
 </head>
 <body>
   <div id="fb-root"></div>
@@ -29,6 +48,7 @@
       document.getElementById('status').innerHTML = 'Please log ' +
       'into Facebook.';
     }
+
   }
 
   // This function is called when someone finishes with the Login
@@ -71,41 +91,43 @@
   (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
 
     // Here we run a very simple test of the Graph API after login is
     // successful.  See statusChangeCallback() for when this call is made.
-  function analizar() {
+    function analizar() {
 
       console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-          console.log('Successful login for: ' + response.name);
-          document.getElementById('status').innerHTML =
-          'Thanks for logging in, ' + response.name + '!';
-        });
+      FB.api('/me', function(response) {
+        console.log('Successful login for: ' + response.name);
+        document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+      });
 
     //Mensajes de Feeds
     FB.api('/me/home?fields=message', function(response) {
-          for(var i=0; i<response.data.length;i++){
-              console.log('Los mensajes de tu feed son: ' + response.data[i].message);
-          }
-        });
+      for(var i=0; i<response.data.length;i++){
+        //console.log('Los mensajes de tu feed son: ' + response.data[i].message);
+      }
+    });
 
     //Mensajes de Timeline Propio
     FB.api('/me?fields=id,posts.limit(10000){message}', function(response) {
-          for(var i=0; i<response.posts.data.length;i++){
+      var data = [];
+      for(var i=0; i<response.posts.data.length;i++){
             if(typeof response.posts.data[i].message !== "undefined"){ //Quito los post sin texto
-              console.log('Los mensajes de tu timeline son: ' + response.posts.data[i].message);
-              document.getElementById('mensajes').innerHTML += '<br>' + sentimentToSmiley(response.posts.data[i].message);
+              //console.log('Los mensajes de tu timeline son: ' + response.posts.data[i].message);
+              data.push(response.posts.data[i].message);
             }
           }
+          socket.emit('analizar', data);
         });
-    }
+  }
 
-    </script>
+</script>
     <!--
     Below we include the Login Button social plugin. This button uses
     the JavaScript SDK to present a graphical Login button that triggers
@@ -116,9 +138,7 @@
 </fb:login-button>
 
 <div id="status"></div>
-<div id="mensajes">
-  
-</div>
-
+<div id="mensajes"></div>
+<div id="datos">sdfsfsfsfsdfsfsdf</div>
 </body>
 </html>

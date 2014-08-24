@@ -4,16 +4,16 @@ var express = require("express");
 var sentiment = require("sentiment");
 
 function sentimentToSmiley(texto) {
-  var score = sentiment(texto).score;
+	var score = sentiment(texto).score;
 
-  if(score === 0) { return ':-|' }
-  if(score < 0) {
-    if(score > -2) { return ':-(' }
-    return ':`('
-  }
+	if(score === 0) { return ':-|' }
+		if(score < 0) {
+			if(score > -2) { return ':-(' }
+				return ':`('
+			}
 
-  if(score < 2) { return ':-)' }
-  return ':-D'
+			if(score < 2) { return ':-)' }
+return ':-D'
 }
 
 var app = new express();
@@ -42,3 +42,19 @@ server.listen(port, host, function(){
 	console.log("Listening " + host + ":" + port);
 });
 
+
+var io = require('socket.io').listen(8079);
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('analizar', function (data) {
+  	mensajes = [];
+  	score = [];
+  	for (i in data) {
+  		mensajes.push(data[i]);
+  		score.push(Math.round(Math.random()*20-10));
+  		//score.push(sentiment(data[i]));
+  	};
+    socket.emit('devolverDatos', {mensajes: mensajes, score: score});
+  });
+});
