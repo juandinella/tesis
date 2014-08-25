@@ -3,6 +3,9 @@
 <head>
   <title>Tesis</title>
   <meta charset="UTF-8">
+  <style>
+    span{font-weight: bold}
+  </style>
   <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
   <script>
     var socket = io.connect('http://juancito.com:8079');
@@ -15,7 +18,7 @@
       var mensajes = data.mensajes;
       var score = data.score;
       for(var i = 0; i < mensajes.length; i++){
-        datos.innerHTML += mensajes[i] +"  score:"+score[i]+"<br>";
+        datos.innerHTML +=  "<p>" + mensajes[i] + "<span>" + "  score:" + " " +score[i]+ "</span>"+"</p>";
       }
 
     });

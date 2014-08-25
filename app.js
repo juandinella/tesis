@@ -33,7 +33,7 @@ server.listen(port, host, function(){
 var io = require('socket.io').listen(8079);
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', "CONECTO");
+  socket.emit('news', "Conectado");
   socket.on('analizar', function (data) {
   	mensajes = [];
   	score = [];
