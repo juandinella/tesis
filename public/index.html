@@ -11,9 +11,11 @@
     });
     socket.on('devolverDatos', function (data) {
       var datos = document.getElementById("datos");
-      for(var i = 0; i < data.mensajes.length; i++){
-        console.log(i,datos.mensajes[i],datos.score[i]);
-        datos.innerHTML += datos.mensajes[i];//+"  score:"+score[i]+"<br>";
+      datos.innerHTML = "";
+      var mensajes = data.mensajes;
+      var score = data.score;
+      for(var i = 0; i < mensajes.length; i++){
+        datos.innerHTML += mensajes[i] +"  score:"+score[i]+"<br>";
       }
       //console.log(datos.innerHTML);
     });
@@ -135,6 +137,6 @@
 
 <div id="status"></div>
 <div id="mensajes"></div>
-<div id="datos">sdfsfsfsfsdfsfsdf</div>
+<div id="datos">cargando...</div>
 </body>
 </html>
