@@ -10,16 +10,12 @@
       console.log(data);
     });
     socket.on('devolverDatos', function (data) {
-      console.log(data.mensajes);
-      
       var datos = document.getElementById("datos");
-      datos.innerHTML="";
-      var mensajes = datos.mensajes;
-      var score = datos.score;
-      for(var i = 0; i < mensajes.length; i++){
-        console.log(i);
-          datos.innerHTML += i;//mensajes[i]+"  score:"+score[i]+"<br>";
+      for(var i = 0; i < data.mensajes.length; i++){
+        console.log(i,datos.mensajes[i],datos.score[i]);
+        datos.innerHTML += datos.mensajes[i];//+"  score:"+score[i]+"<br>";
       }
+      //console.log(datos.innerHTML);
     });
   </script>
 </head>

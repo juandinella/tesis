@@ -46,15 +46,21 @@ server.listen(port, host, function(){
 var io = require('socket.io').listen(8079);
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
+  socket.emit('news', "CONECTO");
   socket.on('analizar', function (data) {
   	mensajes = [];
   	score = [];
   	for (i in data) {
-  		mensajes.push(data[i]);
-  		score.push(Math.round(Math.random()*20-10));
-  		//score.push(sentiment(data[i]));
+  		mensajes[mensajes.length] = data[i];
+  		//score.push(Math.round(Math.random()*20-10));
+  		var sco = 0;
+  		sentiment(data[i], function (err, result) {
+            sco = result.score;
+        });
+  		//console.log(data[i], sco);
+  		score[score.length] = sco;
   	};
+  	//console.log(mensajes, score);
     socket.emit('devolverDatos', {mensajes: mensajes, score: score});
   });
 });
