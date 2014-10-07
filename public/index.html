@@ -109,11 +109,20 @@
       });
 
     //Mensajes de Feeds
-    FB.api('/me/home?fields=message', function(response) {
-      for(var i=0; i<response.data.length;i++){
-        //console.log('Los mensajes de tu feed son: ' + response.data[i].message);
+    // FB.api('/me/home?fields=message', function(response) {
+    //   for(var i=0; i<response.data.length;i++){
+    //     console.log('Los mensajes de tu feed son: ' + response.data[i].message);
+    //   }
+    // });
+
+
+    FB.api('/me?fields=id,posts.{message}', function(response) {
+      for(var a=0; a<response.data.length;a++){
+        console.log('Los mensajes de tu feed son: ' + response.data[a].message);
       }
     });
+
+
 
     //Mensajes de Timeline Propio
     FB.api('/me?fields=id,posts.limit(10000){message}', function(response) {
