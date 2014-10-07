@@ -1,4 +1,4 @@
-tvar http = require("http");
+var http = require("http");
 var fs = require("fs");
 var express = require("express");
 var sentiment = require("sentiment");
