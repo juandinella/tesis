@@ -39,15 +39,14 @@ io.sockets.on('connection', function (socket) {
   	score = [];
   	for (i in data) {
   		mensajes[mensajes.length] = data[i];
-  		//score.push(Math.round(Math.random()*20-10));
   		var sco = 0;
   		sentiment(data[i], function (err, result) {
             sco = result.score;
         });
-  		//console.log(data[i], sco);
+
   		score[score.length] = sco;
   	};
-  	//console.log(mensajes, score);
+  	
     socket.emit('devolverDatos', {mensajes: mensajes, score: score});
   });
 });

@@ -6,6 +6,7 @@
   <style>
     span{font-weight: bold}
   </style>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
   <script>
     var socket = io.connect('http://juancito.com:8079');
@@ -23,6 +24,8 @@
 
     });
   </script>
+  
+
 </head>
 <body>
   <div id="fb-root"></div>
@@ -116,11 +119,11 @@
     // });
 
 
-    FB.api('/me?fields=id,posts.{message}', function(response) {
-      for(var a=0; a<response.data.length;a++){
-        console.log('Los mensajes de tu feed son: ' + response.data[a].message);
-      }
-    });
+    // FB.api('/me?fields=id,posts.{message}', function(response) {
+    //   for(var a=0; a<response.data.length;a++){
+    //     console.log('Los mensajes de tu feed son: ' + response.data[a].message);
+    //   }
+    // });
 
 
 
@@ -150,5 +153,6 @@
 <div id="status"></div>
 <div id="mensajes"></div>
 <div id="datos">cargando...</div>
+<script src="script.js"></script>
 </body>
 </html>
